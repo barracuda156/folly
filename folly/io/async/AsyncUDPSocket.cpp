@@ -36,6 +36,14 @@
 #define SO_REUSEPORT 15
 #endif
 
+#ifndef IPV6_TCLASS
+#if defined(__GNU__)
+#define IPV6_TCLASS 61
+#elif defined(__APPLE__)
+#define IPV6_TCLASS 36
+#endif
+#endif
+
 #if FOLLY_HAVE_VLA
 #define FOLLY_HAVE_VLA_01 1
 #else
@@ -262,6 +270,7 @@ void AsyncUDPSocket::init(sa_family_t family, BindOptions bindOptions) {
             "failed to set IPV6_RECVTCLASS on the socket",
             errno);
       }
+  #ifdef IP_RECVTOS
     } else if (family == AF_INET) {
       if (netops::setsockopt(
               socket, IPPROTO_IP, IP_RECVTOS, &flag, sizeof(flag)) != 0) {
@@ -270,6 +279,7 @@ void AsyncUDPSocket::init(sa_family_t family, BindOptions bindOptions) {
             "failed to set IP_RECVTOS on the socket",
             errno);
       }
+  #endif
     }
   }
 

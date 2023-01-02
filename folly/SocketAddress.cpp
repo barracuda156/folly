@@ -125,6 +125,10 @@ struct GetAddrInfoError {
 
 namespace folly {
 
+#ifndef AI_NUMERICSERV		
+#define AI_NUMERICSERV 0		
+#endif
+
 bool SocketAddress::isPrivateAddress() const {
   auto family = getFamily();
   if (family == AF_INET || family == AF_INET6) {
