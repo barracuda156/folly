@@ -181,14 +181,17 @@ message(STATUS "Setting FOLLY_USE_SYMBOLIZER: ${FOLLY_USE_SYMBOLIZER}")
 message(STATUS "Setting FOLLY_HAVE_ELF: ${FOLLY_HAVE_ELF}")
 message(STATUS "Setting FOLLY_HAVE_DWARF: ${FOLLY_HAVE_DWARF}")
 
-# Using clang with libstdc++ requires explicitly linking against libatomic
-check_cxx_source_compiles("
-  #include <atomic>
-  int main(int argc, char** argv) {
-    struct Test { int val; };
-    std::atomic<Test> s;
-    return static_cast<int>(s.is_lock_free());
-  }"
+# Using clang with libstdc++ requires explicitly linking against libatomic.
+# The same applies to GCC on some platforms.
+check_cxx_source_compiles(
+"#include <atomic>
+int main() {
+  std::atomic<uint8_t> w1;
+  std::atomic<uint16_t> w2;
+  std::atomic<uint32_t> w4;
+  std::atomic<uint64_t> w8;
+  return ++w1 + ++w2 + ++w4 + ++w8;
+}"
   FOLLY_CPP_ATOMIC_BUILTIN
 )
 if(NOT FOLLY_CPP_ATOMIC_BUILTIN)
