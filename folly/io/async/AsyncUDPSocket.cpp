@@ -36,14 +36,6 @@
 #define SO_REUSEPORT 15
 #endif
 
-#ifndef IPV6_TCLASS
-#if defined(__GNU__)
-#define IPV6_TCLASS 61
-#elif defined(__APPLE__)
-#define IPV6_TCLASS 36
-#endif
-#endif
-
 #if FOLLY_HAVE_VLA
 #define FOLLY_HAVE_VLA_01 1
 #else

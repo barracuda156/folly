@@ -118,7 +118,7 @@ File File::dupCloseOnExec() const {
     int fd;
 #ifdef _WIN32
     fd = ::dup(fd_);
-#elseif defined(F_DUPFD_CLOEXEC)
+#elif defined(F_DUPFD_CLOEXEC)
     fd = ::fcntl(fd_, F_DUPFD_CLOEXEC, 0);
 #else
     fd = ::dup(fd_);

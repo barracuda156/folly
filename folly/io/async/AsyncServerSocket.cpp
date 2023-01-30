@@ -47,18 +47,6 @@ namespace folly {
 #define TCP_SAVED_SYN 28
 #endif
 
-#ifndef AI_NUMERICSERV		
-#define AI_NUMERICSERV 0		
-#endif
-
-#ifndef IPV6_TCLASS
-#if defined(__GNU__)
-#define IPV6_TCLASS 61
-#elif defined(__APPLE__)
-#define IPV6_TCLASS 36
-#endif
-#endif
-
 static constexpr bool msgErrQueueSupported =
 #ifdef FOLLY_HAVE_MSG_ERRQUEUE
     true;

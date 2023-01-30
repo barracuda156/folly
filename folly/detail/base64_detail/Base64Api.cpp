@@ -31,7 +31,7 @@ Base64RuntimeImpl base64EncodeSelectImplementation() {
         base64URLDecodeSWAR};
   }
 #endif
-#if defined(__POWERPC__) // PowerPC BE
+#if defined(__POWERPC__) || (defined(__powerpc__) && defined(WORDS_BIGENDIAN)) // PowerPC BE
   return {
       base64EncodeScalar,
       base64URLEncode};
