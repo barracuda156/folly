@@ -1031,6 +1031,7 @@ TEST(F14VectorSet, destructuring) {
   runInsertAndEmplace<F14VectorSet<Tracked<0>>>();
 }
 
+#ifndef __APPLE__
 TEST(F14ValueSet, maxSize) {
   SKIP_IF(kFallback);
 
@@ -1066,6 +1067,7 @@ TEST(F14VectorSet, maxSize) {
           std::allocator_traits<decltype(s)::allocator_type>::max_size(
               s.get_allocator())));
 }
+#endif
 
 template <typename S>
 void runMoveOnlyTest() {

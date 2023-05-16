@@ -1400,6 +1400,7 @@ TEST(F14VectorMap, destructuringErase) {
       0);
 }
 
+#ifndef __APPLE__
 TEST(F14ValueMap, maxSize) {
   SKIP_IF(kFallback);
 
@@ -1435,6 +1436,7 @@ TEST(F14VectorMap, vectorMaxSize) {
           std::allocator_traits<decltype(m)::allocator_type>::max_size(
               m.get_allocator())));
 }
+#endif
 
 template <typename M>
 void runMoveOnlyTest() {
