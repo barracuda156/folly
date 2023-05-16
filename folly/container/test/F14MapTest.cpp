@@ -1774,6 +1774,7 @@ void runHeterogeneousInsertTest() {
       << Tracked<1>::counts();
 #endif
 
+#if FOLLY_F14_VECTOR_INTRINSICS_AVAILABLE
   const auto t = map.prehash(10);
   resetTracking();
   map.try_emplace(t, 10, 40);
@@ -1785,6 +1786,7 @@ void runHeterogeneousInsertTest() {
   EXPECT_EQ(map.size(), 0);
   EXPECT_EQ(Tracked<1>::counts().dist(Counts{0, 0, 0, 0}), 0)
       << Tracked<1>::counts();
+#endif
 }
 
 template <typename M>
