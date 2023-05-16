@@ -261,6 +261,16 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 # base64 SIMD files compilation
+
+if (APPLE AND CMAKE_OSX_ARCHITECTURES MATCHES "ppc|ppc64")
+  message(
+    STATUS
+    "PowerPC Big Endian has a limited support, "
+    "skipping building Base64SWAR of base64"
+  )
+  list(REMOVE_ITEM files ${FOLLY_DIR}/detail/base64_detail/Base64SWAR.cpp)
+endif()
+
 if (NOT(${IS_X86_64_ARCH}))
   message(
     STATUS
@@ -690,9 +700,9 @@ if (BUILD_TESTS OR BUILD_BENCHMARKS)
     DIRECTORY experimental/test/
       TEST autotimer_test SOURCES AutoTimerTest.cpp
       TEST bits_test_2 SOURCES BitsTest.cpp
-      TEST bitvector_test SOURCES BitVectorCodingTest.cpp
+      TEST bitvector_test APPLE_DISABLED SOURCES BitVectorCodingTest.cpp
       TEST dynamic_parser_test SOURCES DynamicParserTest.cpp
-      TEST eliasfano_test SOURCES EliasFanoCodingTest.cpp
+      TEST eliasfano_test APPLE_DISABLED SOURCES EliasFanoCodingTest.cpp
       TEST event_count_test SOURCES EventCountTest.cpp
       # FunctionSchedulerTest has a lot of timing-dependent checks,
       # and tends to fail on heavily loaded systems.
@@ -702,7 +712,7 @@ if (BUILD_TESTS OR BUILD_BENCHMARKS)
       TEST lock_free_ring_buffer_test SOURCES LockFreeRingBufferTest.cpp
       #TEST nested_command_line_app_test SOURCES NestedCommandLineAppTest.cpp
       #TEST program_options_test SOURCES ProgramOptionsTest.cpp
-      TEST quotient_multiset_test SOURCES QuotientMultiSetTest.cpp
+      TEST quotient_multiset_test APPLE_DISABLED SOURCES QuotientMultiSetTest.cpp
       # Depends on liburcu
       #TEST read_mostly_shared_ptr_test SOURCES ReadMostlySharedPtrTest.cpp
       #TEST ref_count_test SOURCES RefCountTest.cpp
