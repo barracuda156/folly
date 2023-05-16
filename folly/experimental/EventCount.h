@@ -112,11 +112,13 @@ class EventCount {
   EventCount& operator=(EventCount&&) = delete;
 
   // This requires 64-bit
+#ifndef __ppc__
   static_assert(sizeof(int) == 4, "bad platform");
   static_assert(sizeof(uint32_t) == 4, "bad platform");
   static_assert(sizeof(uint64_t) == 8, "bad platform");
   static_assert(sizeof(std::atomic<uint64_t>) == 8, "bad platform");
   static_assert(sizeof(detail::Futex<std::atomic>) == 4, "bad platform");
+#endif
 
   static constexpr size_t kEpochOffset = kIsLittleEndian ? 1 : 0;
 
