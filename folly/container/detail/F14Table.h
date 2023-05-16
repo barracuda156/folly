@@ -2195,7 +2195,7 @@ class F14Table : public Policy {
   }
 
   template <typename K, typename... Args>
-  std::pair<ItemIter, bool> tryEmplaceValueWithToken(
+  std::pair<ItemIter, bool> tryEmplaceValue(
       F14HashToken const& token, K const& key, Args&&... args) {
     FOLLY_SAFE_DCHECK(
         splitHash(this->computeKeyHash(key)) == static_cast<HashPair>(token),
