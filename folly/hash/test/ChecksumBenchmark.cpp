@@ -19,6 +19,10 @@
 #include <folly/Benchmark.h>
 #include <folly/hash/Checksum.h>
 
+#ifdef __APPLE__
+#include <AvailabilityMacros.h>
+#endif
+
 constexpr size_t kBufSize = 512 * 1024;
 uint8_t* buf;
 
@@ -58,7 +62,11 @@ int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   google::InitGoogleLogging(argv[0]);
 
+#if defined(__APPLE__) && MAC_OS_X_VERSION_MIN_REQUIRED < 101500
+  buf = static_cast<uint8_t*>(malloc(kBufSize + 64));
+#else
   buf = static_cast<uint8_t*>(std::aligned_alloc(4096, kBufSize + 64));
+#endif
 
   std::default_random_engine rng(1729); // Deterministic seed.
   std::uniform_int_distribution<uint16_t> dist(0, 255);
