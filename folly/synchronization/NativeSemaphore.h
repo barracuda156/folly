@@ -20,13 +20,17 @@
 #include <limits>
 #include <stdexcept>
 
+#if defined(__APPLE__)
+#include <AvailabilityMacros.h>
+#endif
+
 #include <folly/Utility.h>
 #include <folly/lang/Exception.h>
 #include <folly/portability/Windows.h>
 
 #if defined(_WIN32)
 
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED > 1050) && !defined(__ppc__)
 
 #include <dispatch/dispatch.h> // @manual
 
@@ -94,7 +98,7 @@ class NativeSemaphore {
   HANDLE sem_{INVALID_HANDLE_VALUE};
 };
 
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED > 1050) && !defined(__ppc__)
 
 class NativeSemaphore {
  public:
