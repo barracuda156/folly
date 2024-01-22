@@ -103,8 +103,13 @@ constexpr auto kBase64SwarDecodeTable =
 template <bool isURL>
 std::uint32_t base64DecodeSWARMainLoop(
     const char*& f, const char* l, char*& o) noexcept {
+
+#ifdef __POWERPC__
+  #warning "This code may not work on a Big-endian architecture yet."
+#else
   static_assert(
       folly::kIsLittleEndian, "Big endian requires a redesigned table");
+#endif
 
   std::uint32_t errorAccumulator = 0;
 

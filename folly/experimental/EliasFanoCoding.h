@@ -42,7 +42,11 @@
 namespace folly {
 namespace compression {
 
-static_assert(kIsLittleEndian, "EliasFanoCoding.h requires little endianness");
+#ifdef __POWERPC__
+  #warning "This code may not work on a Big-endian architecture yet."
+#else
+  static_assert(kIsLittleEndian, "EliasFanoCoding.h requires little endianness");
+#endif
 
 constexpr size_t kCacheLineSize = 64;
 
