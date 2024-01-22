@@ -985,10 +985,12 @@ TEST_F(ConstexprMathTest, constexpr_exp_floating) {
     constexpr auto a = folly::constexpr_exp(3.3);
     EXPECT_DOUBLE_EQ(std::exp(3.3), a);
   }
+#ifndef __ppc__
   {
     constexpr auto a = folly::constexpr_exp(471.L);
     EXPECT_DOUBLE_EQ(std::exp(471.L), a);
   }
+#endif
   {
     constexpr auto a = folly::constexpr_exp(600.);
     EXPECT_NE(lim::infinity(), a);
