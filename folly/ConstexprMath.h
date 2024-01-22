@@ -42,15 +42,25 @@ using enable_if_floating_t =
 ///
 /// mimic: std::numbers::e_v, C++20
 template <typename T>
+#if defined(__ppc__) || defined(__i386__)
+FOLLY_INLINE_VARIABLE constexpr T e_v = detail::enable_if_floating_t<T>(
+    2.71828182845904523536028747135266250);
+#else
 FOLLY_INLINE_VARIABLE constexpr T e_v = detail::enable_if_floating_t<T>(
     2.71828182845904523536028747135266249775724709369995L);
+#endif
 
 /// ln2_v
 ///
 /// mimic: std::numbers::ln2_v, C++20
 template <typename T>
+#if defined(__ppc__) || defined(__i386__)
+FOLLY_INLINE_VARIABLE constexpr T ln2_v = detail::enable_if_floating_t<T>(
+    0.693147180559945309417232121458176568);
+#else
 FOLLY_INLINE_VARIABLE constexpr T ln2_v = detail::enable_if_floating_t<T>(
     0.69314718055994530941723212145817656807550013436025L);
+#endif
 
 /// e
 ///
