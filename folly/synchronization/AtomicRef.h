@@ -28,7 +28,9 @@ namespace detail {
 template <typename T>
 struct atomic_ref_base {
   static_assert(sizeof(T) == sizeof(std::atomic<T>), "size mismatch");
+#ifndef __ppc__
   static_assert(alignof(T) == alignof(std::atomic<T>), "alignment mismatch");
+#endif
   static_assert(is_trivially_copyable_v<T>, "value not trivially-copyable");
 
   explicit atomic_ref_base(T& ref) : ref_(ref) {}
@@ -156,9 +158,11 @@ struct make_atomic_ref_t {
   template <
       typename T,
       std::enable_if_t<
-          is_trivially_copyable_v<T> && sizeof(T) == sizeof(std::atomic<T>) &&
-              alignof(T) == alignof(std::atomic<T>),
-          int> = 0>
+          is_trivially_copyable_v<T> && sizeof(T) == sizeof(std::atomic<T>)
+#ifndef __ppc__
+          && alignof(T) == alignof(std::atomic<T>)
+#endif
+          , int> = 0>
   atomic_ref<T> operator()(T& ref) const {
     return atomic_ref<T>{ref};
   }
