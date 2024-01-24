@@ -56,9 +56,9 @@
 #define FOLLY_HAS_PTHREAD_SETNAME_NP_THREAD_NAME 0
 #endif
 
-#if defined(__APPLE__)
-#if defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && \
-    __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
+#if defined(__APPLE__) && !defined(__POWERPC__)
+#if defined(MAC_OS_X_VERSION_MIN_REQUIRED) && \
+    MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 // macOS 10.6+ has pthread_setname_np(const char*) (1 param)
 #define FOLLY_HAS_PTHREAD_SETNAME_NP_NAME 1
 #elif defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && \

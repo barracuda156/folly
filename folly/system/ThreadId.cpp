@@ -40,16 +40,12 @@ namespace detail {
 
 uint64_t getOSThreadIDSlow() {
 #if __APPLE__
-  #if defined(__POWERPC__) || MAC_OS_X_VERSION_MAX_ALLOWED < 1060
-    uint64_t tid;
-    tid = pthread_mach_thread_np(pthread_self());
-  #elif MAC_OS_X_VERSION_MIN_REQUIRED < 1060
-    uint64_t tid;
-    tid = pthread_mach_thread_np(pthread_self());
-  #else
+  #ifndef __POWERPC__
     uint64_t tid;
     pthread_threadid_np(nullptr, &tid);
     return tid;
+  #else
+    return 0;
   #endif
 #elif defined(_WIN32)
   return uint64_t(GetCurrentThreadId());
