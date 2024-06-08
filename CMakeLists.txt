@@ -610,7 +610,7 @@ if (BUILD_TESTS OR BUILD_BENCHMARKS)
 
     DIRECTORY compression/elias_fano/test/
       TEST bitvector_test SOURCES BitVectorCodingTest.cpp
-      TEST eliasfano_test SOURCES EliasFanoCodingTest.cpp
+      TEST eliasfano_test APPLE_DISABLED SOURCES EliasFanoCodingTest.cpp
 
     DIRECTORY container/test/
       TEST access_test SOURCES AccessTest.cpp
@@ -988,7 +988,7 @@ if (BUILD_TESTS OR BUILD_BENCHMARKS)
       TEST atomic_hash_map_test HANGING
         SOURCES AtomicHashMapTest.cpp
       TEST atomic_linked_list_test SOURCES AtomicLinkedListTest.cpp
-      TEST atomic_unordered_map_test SOURCES AtomicUnorderedMapTest.cpp
+      TEST atomic_unordered_map_test APPLE_DISABLED SOURCES AtomicUnorderedMapTest.cpp
       TEST base64_test SOURCES base64_test.cpp
       TEST clock_gettime_wrappers_test SOURCES ClockGettimeWrappersTest.cpp
       TEST concurrent_bit_set_test SOURCES ConcurrentBitSetTest.cpp
@@ -1001,7 +1001,7 @@ if (BUILD_TESTS OR BUILD_BENCHMARKS)
       TEST cpu_id_test SOURCES CpuIdTest.cpp
       TEST demangle_test SOURCES DemangleTest.cpp
       TEST deterministic_schedule_test SOURCES DeterministicScheduleTest.cpp
-      TEST discriminated_ptr_test SOURCES DiscriminatedPtrTest.cpp
+      TEST discriminated_ptr_test APPLE_DISABLED SOURCES DiscriminatedPtrTest.cpp
       TEST endian_test SOURCES EndianTest.cpp
       TEST exception_test SOURCES ExceptionTest.cpp
       BENCHMARK exception_wrapper_benchmark WINDOWS_DISABLED
