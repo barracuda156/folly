@@ -40,9 +40,13 @@ namespace detail {
 
 uint64_t getOSThreadIDSlow() {
 #if __APPLE__
-  uint64_t tid;
-  pthread_threadid_np(nullptr, &tid);
-  return tid;
+  #ifndef __POWERPC__
+    uint64_t tid;
+    pthread_threadid_np(nullptr, &tid);
+    return tid;
+  #else
+    return 0;
+  #endif
 #elif defined(_WIN32)
   return uint64_t(GetCurrentThreadId());
 #elif defined(__FreeBSD__)
