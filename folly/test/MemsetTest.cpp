@@ -21,6 +21,10 @@
 
 #include <folly/portability/GTest.h>
 
+#ifdef __APPLE__
+#include <AvailabilityMacros.h>
+#endif
+
 constexpr size_t kPageSize = 4096;
 constexpr uint8_t kBufEnd = 0xDB;
 
@@ -45,8 +49,13 @@ void testMemsetImpl(uint8_t* buf, size_t maxLen) {
 
 TEST(MemsetAsmTest, alignedBuffer) {
   constexpr size_t kMaxSize = 2 * kPageSize;
+#if defined(__APPLE__) && MAC_OS_X_VERSION_MIN_REQUIRED < 101500
+  uint8_t* buf = reinterpret_cast<uint8_t*>(
+      malloc(kMaxSize + 2 * kPageSize));
+#else
   uint8_t* buf = reinterpret_cast<uint8_t*>(
       aligned_alloc(kPageSize, kMaxSize + 2 * kPageSize));
+#endif
   // Get buffer aligned power of 2 from 16 all the way up to a page size
   for (size_t alignment = 16; alignment <= kPageSize; alignment <<= 1) {
     testMemsetImpl(buf + (alignment % kPageSize), kMaxSize);
@@ -55,8 +64,13 @@ TEST(MemsetAsmTest, alignedBuffer) {
 }
 
 TEST(MemsetAsmTest, unalignedBuffer) {
+#if defined(__APPLE__) && MAC_OS_X_VERSION_MIN_REQUIRED < 101500
+  uint8_t* buf =
+      reinterpret_cast<uint8_t*>(malloc(2 * kPageSize));
+#else
   uint8_t* buf =
       reinterpret_cast<uint8_t*>(aligned_alloc(kPageSize, 2 * kPageSize));
+#endif
   for (size_t alignment = 1; alignment <= 192; alignment++) {
     testMemsetImpl(buf + alignment, 256);
   }
