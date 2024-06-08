@@ -25,6 +25,10 @@
 #include <folly/Preprocessor.h>
 #include <folly/portability/GFlags.h>
 
+#ifdef __APPLE__
+#include <AvailabilityMacros.h>
+#endif
+
 DEFINE_uint32(min_size, 1, "Minimum size to benchmark");
 DEFINE_uint32(max_size, 32768, "Maximum size to benchmark");
 DEFINE_bool(linear, false, "Test all sizes [min_size, max_size]");
@@ -86,7 +90,11 @@ int main(int argc, char** argv) {
   assert(FLAGS_step > 0);
 
   size_t totalBufSize = (FLAGS_max_size + FLAGS_page_offset + 4095) & ~4095;
+#if defined(__APPLE__) && MAC_OS_X_VERSION_MIN_REQUIRED < 101500
+  temp_buf = (uint8_t*)malloc(totalBufSize);
+#else
   temp_buf = (uint8_t*)aligned_alloc(4096, totalBufSize);
+#endif
   // Make sure all pages are allocated
   for (size_t i = 0; i < totalBufSize; i++) {
     temp_buf[i] = 0;
