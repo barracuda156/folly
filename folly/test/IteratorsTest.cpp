@@ -42,7 +42,9 @@ TEST(IteratorsTest, IterFacadeHasCorrectTraits) {
   static_assert(
       std::is_same<TR::iterator_category, std::forward_iterator_tag>::value,
       "");
+#ifndef __ppc__
   static_assert(std::is_same<TR::difference_type, ssize_t>::value, "");
+#endif
 }
 
 TEST(IteratorsTest, SimpleIteratorFacade) {
@@ -85,7 +87,9 @@ TEST(IteratorsTest, IterAdaptorHasCorrectTraits) {
   static_assert(
       std::is_same<TR::iterator_category, std::forward_iterator_tag>::value,
       "");
+#ifndef __ppc__
   static_assert(std::is_same<TR::difference_type, ssize_t>::value, "");
+#endif
 }
 
 TEST(IteratorsTest, IterAdaptorWithPointer) {
