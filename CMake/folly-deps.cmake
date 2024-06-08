@@ -246,7 +246,7 @@ check_cxx_source_compiles("
   FOLLY_STDLIB_LIBCPP
 )
 
-if (APPLE)
+if (APPLE AND FOLLY_STDLIB_LIBCXX)
   list (APPEND CMAKE_REQUIRED_LIBRARIES c++abi)
   list (APPEND FOLLY_LINK_LIBRARIES c++abi)
 endif ()
