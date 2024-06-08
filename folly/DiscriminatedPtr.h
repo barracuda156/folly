@@ -33,8 +33,8 @@
 #include <folly/Portability.h>
 #include <folly/detail/DiscriminatedPtrDetail.h>
 
-#if !FOLLY_X64 && !FOLLY_AARCH64 && !FOLLY_PPC64 && !FOLLY_RISCV64
-#error "DiscriminatedPtr is x64, arm64, ppc64 and riscv64 specific code."
+#if !FOLLY_X64 && !FOLLY_AARCH64 && !FOLLY_PPC && !FOLLY_PPC64 && !FOLLY_RISCV64
+#error "DiscriminatedPtr is x64, arm64, ppc, ppc64 and riscv64 specific code."
 #endif
 
 namespace folly {
