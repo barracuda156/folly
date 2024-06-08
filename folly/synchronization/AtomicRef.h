@@ -168,9 +168,11 @@ struct make_atomic_ref_t {
       typename T,
       std::enable_if_t<
           std::is_trivially_copyable_v<T> &&
-              sizeof(T) == sizeof(std::atomic<T>) &&
-              alignof(T) == alignof(std::atomic<T>),
-          int> = 0>
+              sizeof(T) == sizeof(std::atomic<T>)
+#ifndef __ppc__
+               && alignof(T) == alignof(std::atomic<T>)
+#endif
+          , int> = 0>
   atomic_ref<T> operator()(T& ref) const {
     return atomic_ref<T>{ref};
   }
