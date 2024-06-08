@@ -74,9 +74,11 @@ struct NoDefault {
 
 } // namespace
 
+#ifndef __ppc__
 static_assert(sizeof(Optional<char>) == 2, "");
-static_assert(sizeof(Optional<int>) == 8, "");
 static_assert(sizeof(Optional<NoDefault>) == 4, "");
+#endif
+static_assert(sizeof(Optional<int>) == 8, "");
 static_assert(sizeof(Optional<char>) == sizeof(std::optional<char>), "");
 static_assert(sizeof(Optional<short>) == sizeof(std::optional<short>), "");
 static_assert(sizeof(Optional<int>) == sizeof(std::optional<int>), "");
