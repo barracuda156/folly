@@ -43,8 +43,12 @@ inline void asm_volatile_pause() {
   asm volatile("isb");
 #elif (defined(__arm__) && !(__ARM_ARCH < 7))
   asm volatile("yield");
-#elif FOLLY_PPC64
-  asm volatile("or 27,27,27");
+#elif FOLLY_PPC || FOLLY_PPC64
+  #ifdef __APPLE__
+    __asm__ volatile ("or r27,r27,r27" ::: "memory");
+  #else
+    asm volatile("or 27,27,27");
+  #endif
 #endif
 }
 } // namespace folly
